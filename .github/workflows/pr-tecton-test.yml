@@ -1,0 +1,28 @@
+name: Tecton Feature Repo Test
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ "brian/2022-02-04/ci" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Python 3.7.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7.10
+
+    - name: Install pypandoc for Spark install
+      run: pip install pypandoc
+
+    - name: Install the Tecton CLI
+      run: pip install --no-cache-dir 'tecton[pyspark]==0.3.0b18'
+
+    - name: Run tecton test
+      run: tecton test
